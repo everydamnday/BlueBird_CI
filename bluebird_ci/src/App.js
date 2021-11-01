@@ -1,7 +1,8 @@
 import React from "react";
+import AppRouter from "./components/Router";
 
 function App() {
-  return <div>리액트설치완료</div>;
+  return <AppRouter />;
 }
 
 export default App;
