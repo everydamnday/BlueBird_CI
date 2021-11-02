@@ -70,6 +70,48 @@ form {
   background-color: tomato;
 }
 
+.statusBar {
+  width: 100%;
+  text-align: center;
+  font-size: large;
+  /* justify-content: center;
+  align-items: center; */
+  background-color: tomato;
+}
+
+@keyframes spinCircle {
+  from {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.loadingBox .dim {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.loadingBox .circle {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 10px solid #fff;
+  border-top: 10px solid skyblue;
+  border-radius: 50em;
+  animation-name: spinCircle;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
 /* Profile Page */
 
 .profileForm {
@@ -179,6 +221,17 @@ form {
   display: flex;
   flex-direction: column;
   color: rgba(0, 0, 0, 0.8);
+}
+
+.nweet_title {
+  font-weight: 600;
+  font-size: medium;
+}
+
+.nweet_body {
+  margin-top: 5px;
+  font-weight: 400;
+  font-size: small;
 }
 
 .nweet h4 {

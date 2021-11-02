@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 
-const NweetFactory = () => {
+const NweetFactory = ({ fetchData }) => {
   const [nweet, setNweet] = useState("");
   const onSubmit = (e) => {
     e.preventDefault();
+    fetchData();
+    setNweet("");
   };
   const onChange = (e) => {
     const { value } = e.target;

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const Profile = ({ userObj }) => {
+const Profile = ({ setUserObj, userObj }) => {
   const [newDisplayname, setnewDisplayname] = useState(userObj.name);
   const history = useHistory();
   const Logout = () => {
     // userObj 초기화
+    setUserObj();
     history.push("/");
   };
   const onChange = (e) => {
