@@ -8,22 +8,19 @@ router.get('/', (req, res) => {
         .then(items => res.render('index', { items }))
         .catch(err => res.status(404).json({ msg: 'No items found' }));
 });
-router.post("/write", async (req, res) => {
+router.post('/write', async (req, res) => {
     try {
         const board = new Board({
-            content: req.body.content
+            content: req.body.name
         });
-        await board.save().then(item => res.redirect('/'));
-        res.json({ message: "게시글이 업로드 되었습니다." });
-        
-
+        await board.save().then(item => res.redirect('/board'));        
     } catch (err) {
         console.log(err);
         res.json({ message: false });
     }
 });
 
-router.post("/delete", async (req, res) => {
+router.post('/delete', async (req, res) => {
     try {
         await Board.remove({
             _id: req.body._id
@@ -35,7 +32,7 @@ router.post("/delete", async (req, res) => {
     }
 });
 
-router.post("/update", async (req, res) => {
+router.post('/update', async (req, res) => {
     try {
         await Board.update(
             { _id: req.body._id },
@@ -45,7 +42,7 @@ router.post("/update", async (req, res) => {
                 }
             }
         );
-        res.json({ message: "게시글이 수정 되었습니다." });
+        res.json({ message: '게시글이 수정 되었습니다.' });
     } catch (err) {
         console.log(err);
         res.json({ message: false });

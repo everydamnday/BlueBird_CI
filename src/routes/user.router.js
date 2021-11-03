@@ -1,9 +1,9 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const User = require("../models/user");
+const User = require('../models/user');
 
 //회원가입
-router.post("/join", async (req, res) => {
+router.post('/join', async (req, res) => {
     try {
         let obj = { email: req.body.email };
 
@@ -12,13 +12,13 @@ router.post("/join", async (req, res) => {
 
         if (user) {
             res.json({
-                message: "이메일이 중복되었습니다. 새로운 이메일을 입력해주세요.",
-                dupYn: "1"
+                message: '이메일이 중복되었습니다. 새로운 이메일을 입력해주세요.',
+                dupYn: '1'
             });
         } else {
             user = new User(obj);
             await user.save();
-            res.json({ message: "회원가입 되었습니다!", dupYn: "0" });
+            res.json({ message: '회원가입 되었습니다!', dupYn: "0" });
         }
     } catch (err) {
         console.log(err);
@@ -27,7 +27,7 @@ router.post("/join", async (req, res) => {
 });
 
 //로그인
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
     try {
         //이메일 값으로 아이디가 존재하는지 확인
         await User.findOne({ email: req.body.email }, async (err, user) => {
@@ -43,7 +43,7 @@ router.post("/login", async (req, res) => {
         });
     }catch (err) {
         console.log(err);
-        res.json({ message: "로그인 실패" });
+        res.json({ message: '로그인 실패' });
     }
 });
 
@@ -54,7 +54,7 @@ router.post("/login", async (req, res) => {
 //     });
 // });
 
-router.post("/delete", async (req, res) => {
+router.post('/delete', async (req, res) => {
     try {
         await User.remove({
             _id: req.body._id
@@ -66,7 +66,7 @@ router.post("/delete", async (req, res) => {
     }
 });
 
-router.post("/update", async (req, res) => {
+router.post('/update', async (req, res) => {
     try {
         await User.update({
             _id: req.body._id,
@@ -79,7 +79,7 @@ router.post("/update", async (req, res) => {
     }
 });
 
-router.post("/add", async (req, res) => {
+router.post('/add', async (req, res) => {
     try {
         const user = new User(req.body);
         await user.save();

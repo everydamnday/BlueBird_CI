@@ -1,9 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-// const {
-//     Types: { ObjectId }
-// } = Schema;
+
 const boardSchema = new Schema({
     // writer: {
     //     type: ObjectId,
@@ -28,4 +26,4 @@ const boardSchema = new Schema({
     }
 });
 
-module.exports = Board = mongoose.model("Board", boardSchema);
+module.exports = mongoose.model('board', boardSchema);

@@ -1,34 +1,33 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 module.exports = () => {
     const connect = () => {
-        if (process.env.NODE_ENV !== "production") {
-            mongoose.set("debug", true);
+        if (process.env.NODE_ENV !== 'production') {
+            mongoose.set('debug', true);
         }
         mongoose.connect(
-            "mongodb://localhost:27017/docker-node-mongo",
+            'mongodb://localhost:27017/docker-node-mongo',
             {
-                dbName: "bluebird"
+                dbName: 'bluebird'
             },
             error => {
                 if (error) {
-                    console.log("몽고디비 연결 에러", error);
+                    console.log('몽고디비 연결 에러', error);
                 } else {
-                    console.log("몽고디비 연결 성공");
+                    console.log('몽고디비 연결 성공');
                 }
             }
         );
     };
     connect();
-    mongoose.connection.on("error", error => {
-        console.log("몽고디비 연결 에러", error);
+    mongoose.connection.on('error', error => {
+        console.log('몽고디비 연결 에러', error);
     });
-    mongoose.connection.on("disconnected", () => {
-        console.log("몽고디비 연결이 끊겼습니다. 연결을 재시도 합니다.");
+    mongoose.connection.on('disconnected', () => {
+        console.log('몽고디비 연결이 끊겼습니다. 연결을 재시도 합니다.');
         connect();
     });
-    require("../models/user");
-    require("../models/board");
-    require("../models/Item");
+    require('../models/user');
+    require('../models/board');
 
 };
