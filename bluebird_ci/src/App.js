@@ -34,6 +34,7 @@ function App() {
       </div>
     );
   if (error) return <div className="statusBar">Error!</div>;
+
   return (
     <AppRouter
       setUserObj={setUserObj}

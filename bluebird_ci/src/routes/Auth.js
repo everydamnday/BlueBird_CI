@@ -53,6 +53,7 @@ const Auth = ({ setUserObj }) => {
   const toggleAccount = () => setNewAccount((prev) => !prev);
 
   const SocialLogin = (e) => {};
+
   if (loading)
     return (
       <div class="loadingBox">
@@ -61,6 +62,7 @@ const Auth = ({ setUserObj }) => {
       </div>
     );
   if (error) return <div className="statusBar">Error!</div>;
+
   return (
     <div className="authContainer">
       <FontAwesomeIcon
