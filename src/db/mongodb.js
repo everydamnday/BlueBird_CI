@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
+const { MONGO_URL } = process.env;
 
 module.exports = () => {
     const connect = () => {
@@ -6,9 +8,7 @@ module.exports = () => {
             mongoose.set('debug', true);
         }
         mongoose.connect(
-            'mongodb://localhost:27017/docker-node-mongo',
-            {
-                dbName: 'bluebird'
+            MONGO_URL,{ dbName: 'bluebird'
             },
             error => {
                 if (error) {

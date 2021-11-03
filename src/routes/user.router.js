@@ -79,16 +79,16 @@ router.post('/update', async (req, res) => {
     }
 });
 
-router.post('/add', async (req, res) => {
-    try {
-        const user = new User(req.body);
-        await user.save();
-        res.json({ message: true });
-    } catch (err) {
-        console.log(err);
-        res.json({ message: false });
-    }
-});
+// router.post('/add', async (req, res) => {
+//     try {
+//         const user = new User(req.body);
+//         await user.save();
+//         res.json({ message: true });
+//     } catch (err) {
+//         console.log(err);
+//         res.json({ message: false });
+//     }
+// });
 
 
 module.exports = router;
