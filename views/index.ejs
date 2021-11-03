@@ -10,7 +10,7 @@
 
 <body>
   <h1>My Node App</h1>
-  <form method="post" action="/item/add">
+  <form method="post" action="/board/write">
     <label for="name">Name</label>
     <input type="text" name="name">
     <input type="submit" value="Add">
@@ -19,7 +19,7 @@
   <ul>
     <% items.forEach(function(item) { %>
       <li>
-        <%= item.name %>
+        <%= item.content %>
       </li>
       <% }); %>
   </ul>
