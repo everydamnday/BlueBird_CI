@@ -6,7 +6,7 @@ module.exports = () => {
             mongoose.set('debug', true);
         }
         mongoose.connect(
-            'mongodb://localhost:27017/docker-node-mongo',
+            'mongodb://mongo:27017/docker-node-mongo',
             {
                 dbName: 'bluebird'
             },
