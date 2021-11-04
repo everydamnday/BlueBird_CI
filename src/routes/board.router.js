@@ -5,15 +5,17 @@ const Board = require("../models/board");
 
 router.get('/', (req, res) => {
     Board.find()
-        .then(items => res.render('index', { items }))
+        .then(items => res.render('index', { items })) // res.send{}
         .catch(err => res.status(404).json({ msg: 'No items found' }));
 });
-router.post('/write', async (req, res) => {
+
+router.post('/add', async (req, res) => {
     try {
         const board = new Board({
-            content: req.body.name
+            content: req.body.body
+
         });
-        await board.save().then(item => res.redirect('/board'));        
+        await board.save().then(item => res.redirect('/post'));        
     } catch (err) {
         console.log(err);
         res.json({ message: false });
@@ -23,7 +25,7 @@ router.post('/write', async (req, res) => {
 router.post('/delete', async (req, res) => {
     try {
         await Board.remove({
-            _id: req.body._id
+            _id: req.body.id
         });
         res.json({ message: true });
     } catch (err) {
@@ -34,11 +36,11 @@ router.post('/delete', async (req, res) => {
 
 router.post('/update', async (req, res) => {
     try {
-        await Board.update(
-            { _id: req.body._id },
+        await Board.updateOne(
+            { _id: req.body.id },
             {
                 $set: {
-                    content: req.body.content
+                    content: req.body.body
                 }
             }
         );

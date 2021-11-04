@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require("cors");
 const app = express();
 const connect = require('./src/db/mongodb')
 const { PORT } = process.env;
@@ -13,9 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/user', require('./src/routes/user.router'));
-app.use('/board', require('./src/routes/board.router'));
+app.use('/post', require('./src/routes/board.router'));
 
 
-
+app.use(cors({ origin: `http://localhost:${PORT}`, credentials: true }))
 app.listen(PORT, () => console.log('Server running...'));
 

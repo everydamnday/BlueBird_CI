@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const boardSchema = new Schema({
-    // writer: {
-    //     type: ObjectId,
-    //     required: true,
-    //     ref: "User"
-    // },
+    writer: {
+        type: Schema.ObjectId,
+        required: true,
+        ref: "User"
+    },
     // title: {
     //     type: String,
     //     required: true
