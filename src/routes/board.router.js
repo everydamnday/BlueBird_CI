@@ -5,21 +5,16 @@ const User = require("../models/user");
 
 
 router.get('/', (req, res) => {
-    Board.find()
+    Board.findOne({body: })
         .then(board => res.json(board)) 
-        .catch(err => res.status(404).json({ msg: 'No items found' }));
+        .catch(err => res.status(404).json({ msg: 'DB not found post' }));
 });
 
 router.post('/add', async (req, res) => {
     try {
-        // const _id = req.body._id
-        // const user = User.findOne({"_id": _id});
-        // req.body.board.userId = req.body.userId;
-        
-        console.log(user);
+    
         const board = new Board({
-            //userId: user,
-            userId: req.body.id,
+            userId: req.body.id, //passport id 해야 가능....
             body: req.body.body
         });
 
@@ -35,7 +30,7 @@ router.post('/delete', async (req, res) => {
         await Board.remove({
             _id: req.body.id
         });
-        res.json({ message: true });
+        res.json({ message: '삭제 완료' });
     } catch (err) {
         console.log(err);
         res.json({ message: false });
@@ -48,7 +43,7 @@ router.post('/update', async (req, res) => {
             { _id: req.body.id },
             {
                 $set: {
-                    content: req.body.body
+                    body: req.body.body
                 }
             }
         );
