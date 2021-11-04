@@ -1,21 +1,29 @@
 const express = require("express");
 const router = express.Router();
 const Board = require("../models/board");
+const User = require("../models/user");
 
 
 router.get('/', (req, res) => {
     Board.find()
-        .then(items => res.render('index', { items })) // res.send{}
+        .then(board => res.json(board)) 
         .catch(err => res.status(404).json({ msg: 'No items found' }));
 });
 
 router.post('/add', async (req, res) => {
     try {
+        // const _id = req.body._id
+        // const user = User.findOne({"_id": _id});
+        // req.body.board.userId = req.body.userId;
+        
+        console.log(user);
         const board = new Board({
-            content: req.body.body
-
+            //userId: user,
+            userId: req.body.id,
+            body: req.body.body
         });
-        await board.save().then(item => res.redirect('/post'));        
+
+        await board.save();    
     } catch (err) {
         console.log(err);
         res.json({ message: false });

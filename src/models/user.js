@@ -16,7 +16,8 @@ const userSchema = new Schema({
         required: true
     },
     imgPath: {
-        type: String
+        type: String,
+        default: URL
     },
     createdAt: {
         type: Date,

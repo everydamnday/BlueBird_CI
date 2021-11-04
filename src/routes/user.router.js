@@ -12,9 +12,7 @@ router.post('/join', async (req, res) => {
         // email을 비교하여 user가 이미 존재하는지 확인
         let user = await User.findOne({ email });
         if (user) {
-            return res
-                .status(400)
-                .json({ errors: [{ msg: "User already exists" }] });
+            return res.status(400).json({ errors: [{ msg: "User already exists" }] });
         }
 
         // user에 name, email, password 값 할당
@@ -26,12 +24,9 @@ router.post('/join', async (req, res) => {
         // password를 암호화 하기
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
-
-
-
-
-        await user.save(); // db에 user 저장
-        //await delete user.password; // password 객체에서 삭제 
+        // db에 user 저장
+        await user.save();
+        // password 객체에서 삭제 
         user.password = undefined;
 
         res.json(user);
@@ -54,7 +49,7 @@ router.post('/login', async (req, res) => {
         
         user.password = undefined;
 
-        if (err) return res.status(500).json({ message: '에러!' });
+        if (err) return res.status(500).json({ message: 'error!' });
         else if (user)
             return res.status(200).json(user);
 
@@ -66,7 +61,7 @@ router.post('/login', async (req, res) => {
 router.post('/delete', async (req, res) => {
     try {
         await User.remove({
-            _id: req.body._id
+            _id: req.body.id
         });
         res.json({ message: true });
     } catch (err) {
@@ -78,7 +73,7 @@ router.post('/delete', async (req, res) => {
 router.post('/update', async (req, res) => {
     try {
         await User.updateOne({
-            _id: req.body._id,
+            _id: req.body.id,
             name: req.body.name
         });
         res.json({ message: true });
@@ -88,12 +83,12 @@ router.post('/update', async (req, res) => {
     }
 });
 
-router.get("/logout", (req, res) => {
-    console.log("/logout" + req.sessionID);
-    req.session.destroy(() => {
-        res.json({ message: true });
-    });
-});
+// router.get("/logout", (req, res) => {
+//     console.log("/logout" + req.sessionID);
+//     req.session.destroy(() => {
+//         res.json({ message: true });
+//     });
+// });
 
 
 module.exports = router;

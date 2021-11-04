@@ -1,18 +1,19 @@
 const mongoose = require('mongoose');
+const User = require("../models/user");
 
 const { Schema } = mongoose;
 
 const boardSchema = new Schema({
-    writer: {
+    userId: {
         type: Schema.ObjectId,
         required: true,
-        ref: "User"
+        ref: 'user'
     },
     // title: {
     //     type: String,
     //     required: true
     // },
-    content: {
+    body: {
         type: String,
         required: true
     },
