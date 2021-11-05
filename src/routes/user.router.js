@@ -12,7 +12,7 @@ router.post('/join', async (req, res) => {
         // email을 비교하여 user가 이미 존재하는지 확인
         let user = await User.findOne({ email });
         if (user) {
-            return res.status(400).json({ errors: [{ msg: "User already exists" }] });
+            return res.status(400).json({ errors: [{ message: "User already exists" }] });
         }
 
         // user에 name, email, password 값 할당
@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
 
         if (err) return res.status(500).json({ message: 'error!' });
         else if (user)
-            return res.status(200).json(user);
+            return res.json(user);
 
         else return res.status(404).json({ message: '유저 없음!' });
     });
@@ -63,23 +63,24 @@ router.post('/delete', async (req, res) => {
         await User.remove({
             _id: req.body.id
         });
-        res.json({ message: true });
+        res.json({ message: '유저아이디가 삭제되었습니다.' });
     } catch (err) {
         console.log(err);
-        res.json({ message: false });
+        res.json({ message: '삭제 실패' });
     }
 });
 
 router.post('/update', async (req, res) => {
     try {
-        await User.updateOne({
-            _id: req.body.id,
-            name: req.body.name
-        });
-        res.json({ message: true });
+        console.log("msg: test")
+        await User.updateOne(
+            { _id: req.body.id },
+            { $set: { name: req.body.name} }
+        );
+        res.json({ message: '프로필 업데이트가 완료되었습니다' });
     } catch (err) {
         console.log(err);
-        res.json({ message: false });
+        res.json({ message: '업데이트 실패.' });
     }
 });
 

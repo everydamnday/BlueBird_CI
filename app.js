@@ -7,7 +7,7 @@ const { PORT } = process.env;
 const passport = require('passport');
 const findOrCreate = require('mongoose-findorcreate');
 
-const auth = require('./routes/auth');
+const auth = require('./src/routes/auth');
 
 connect(); //db 연결
 

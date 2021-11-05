@@ -5,9 +5,9 @@ const User = require("../models/user");
 
 
 router.get('/', (req, res) => {
-    Board.findOne({body: })
+    Board.find()
         .then(board => res.json(board)) 
-        .catch(err => res.status(404).json({ msg: 'DB not found post' }));
+        .catch(err => res.status(404).json({ message: 'post를 찾을수 없습니다.' }));
 });
 
 router.post('/add', async (req, res) => {
@@ -21,7 +21,7 @@ router.post('/add', async (req, res) => {
         await board.save();    
     } catch (err) {
         console.log(err);
-        res.json({ message: false });
+        res.json({ message: 'post 저장에 실패했습니다.' });
     }
 });
 
@@ -30,10 +30,10 @@ router.post('/delete', async (req, res) => {
         await Board.remove({
             _id: req.body.id
         });
-        res.json({ message: '삭제 완료' });
+        res.json({ message: 'post 삭제 완료' });
     } catch (err) {
         console.log(err);
-        res.json({ message: false });
+        res.json({ message: 'post가 삭제되지 않았습니다.' });
     }
 });
 
@@ -41,16 +41,12 @@ router.post('/update', async (req, res) => {
     try {
         await Board.updateOne(
             { _id: req.body.id },
-            {
-                $set: {
-                    body: req.body.body
-                }
-            }
+            { $set: { body: req.body.body } }
         );
-        res.json({ message: '게시글이 수정 되었습니다.' });
+        res.json({ message: 'post 수정 완료.' });
     } catch (err) {
         console.log(err);
-        res.json({ message: false });
+        res.json({ message: 'post가 수정되지 않았습니다.' });
     }
 });
 

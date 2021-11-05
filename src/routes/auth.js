@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passportGoogle = require('../auth/google');
 var passportGitHub = require('../auth/github');
-var User = require('../models/User');
+var User = require('../models/user');
 
 /* LOGIN ROUTER */
 router.get('/login', function(req, res, next) {
