@@ -32,25 +32,28 @@ const Profile = ({ setUserObj, userObj }) => {
   // fetchUser를 불러와서 유저를 갱신 시킬 것인지 고민
   const onSubmit = async (e) => {
     e.preventDefault();
-    // if (userObj.name !== newDisplayname) {
-    //   // userObj 수정
-    //   try {
-    //     setLoading(true);
-    //     const res = await axios.post(`/user/${userObj.id}`, newDisplayname);
-    //     setUserObj(res.data);
-    //   } catch (e) {
-    //     setError(e.response);
-    //     console.log(e)
-    //   }
-    //   setLoading(false);
-    // }
+    console.log(newDisplayname);
+    const data = { name: newDisplayname, id: userObj._id };
+    if (userObj.username !== newDisplayname) {
+      try {
+        setLoading(true);
+        const res = await axios.post(`http://localhost:3005/user/update`, data);
+        console.log("받아온 유저", res.data.newUser);
+        setUserObj(res.data.newUser);
+      } catch (e) {
+        setError(e.response);
+        console.log(e);
+      }
+      setLoading(false);
+      history.push("/");
+    }
   };
 
   if (loading)
     return (
-      <div class="loadingBox">
-        <div class="dim"></div>
-        <div class="circle"></div>
+      <div className="loadingBox">
+        <div className="dim"></div>
+        <div className="circle"></div>
       </div>
     );
   if (error) return <div className="statusBar">Error!</div>;

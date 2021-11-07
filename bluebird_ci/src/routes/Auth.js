@@ -5,9 +5,11 @@ import {
   faGoogle,
   faGithub,
 } from "@fortawesome/free-brands-svg-icons";
+import axios from "axios";
+import { setCookie } from "../cookies";
 
 const Auth = ({ setUserObj }) => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -17,8 +19,8 @@ const Auth = ({ setUserObj }) => {
     const {
       target: { name, value },
     } = event;
-    if (name === "email") {
-      setEmail(value);
+    if (name === "username") {
+      setUsername(value);
     } else if (name === "password") {
       setPassword(value);
     }
@@ -26,25 +28,27 @@ const Auth = ({ setUserObj }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    const data = { username, password };
 
     if (newAccount) {
       console.log("회원가입");
       try {
         setLoading(true);
-        // const res = await axios.post(); 가입정보 서버송신 > db저장 > 유저객체 복원 > 프론트 수신(res)
-        setUserObj({ id: 0, name: "hs" }); // 유저상태 업데이트
-      } catch (e) {
-        setError(e);
+        const res = await axios.post("http://localhost:3005/user/join", data); // 가입정보 서버송신 > db저장 > 유저객체 복원 > 프론트 수신(res)
+        setUserObj(res.data); // 유저상태 업데이트
+      } catch (err) {
+        err.response && setError(err.response.data);
       }
       setLoading(false);
     } else {
       console.log("로그인");
       try {
         setLoading(true);
-        // const res = await axios.post(); 로그인정보 서버송신 > db조회 > 유저객체 복원 > 프론트 수신(res)
-        setUserObj({ id: 0, name: "hs" }); // 유저상태 업데이트
-      } catch (error) {
-        setError(e);
+        const res = await axios.post("http://localhost:3005/user/login", data); // 로그인정보 서버송신 > db조회 > 유저객체 복원 > 프론트 수신(res)
+        setCookie("myToken", res.data.token);
+        setUserObj(res.data.user); // 유저상태 업데이트
+      } catch (err) {
+        err.response && setError(err.response.data);
       }
       setLoading(false);
     }
@@ -52,16 +56,19 @@ const Auth = ({ setUserObj }) => {
 
   const toggleAccount = () => setNewAccount((prev) => !prev);
 
-  const SocialLogin = (e) => {};
+  const SocialLogin = async (e) => {
+    const res = await axios.post("http://localhost:3005/auth/google/callback");
+    console.log(res.data);
+  };
 
   if (loading)
     return (
-      <div class="loadingBox">
-        <div class="dim"></div>
-        <div class="circle"></div>
+      <div className="loadingBox">
+        <div className="dim"></div>
+        <div className="circle"></div>
       </div>
     );
-  if (error) return <div className="statusBar">Error!</div>;
+  //   if (error) return <div className="statusBar">Error!</div>;
 
   return (
     <div className="authContainer">
@@ -74,10 +81,10 @@ const Auth = ({ setUserObj }) => {
       <form onSubmit={onSubmit} className="container">
         <input
           type="text"
-          name="email"
-          placeholder="Email"
+          name="username"
+          placeholder="Username"
           required
-          value={email}
+          value={username}
           onChange={onChange}
           className="authInput"
         />
@@ -90,6 +97,7 @@ const Auth = ({ setUserObj }) => {
           onChange={onChange}
           className="authInput"
         />
+        <span className="errMsg"> {error} </span>
         <input
           type="submit"
           value={newAccount ? "Create Account" : "Log In"}

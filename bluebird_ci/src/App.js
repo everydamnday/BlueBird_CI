@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AppRouter from "./components/Router";
 import axios from "axios";
+import { getCookie } from "../src/cookies";
 
 // const fakeUser = { id: 0, name: "hs" };
 
@@ -10,10 +11,21 @@ function App() {
   const [error, setError] = useState(null);
 
   const fetchUser = async () => {
+    console.log("유저토큰 재발급");
     try {
       setLoading(true);
-      const result = await axios("https://jsonplaceholder.typicode.com/users");
-      setUserObj(result.data[0]);
+
+      const result = await axios({
+        method: "get",
+        url: "http://localhost:3005/user",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${getCookie("myToken")}`,
+        },
+      });
+      if (result.data.user) {
+        setUserObj(result.data.user);
+      }
     } catch (e) {
       setError(e);
     }
@@ -22,18 +34,18 @@ function App() {
 
   // 유저 불러오기
   useEffect(() => {
-    console.log("첫 렌더 유저 불러오기");
+    console.log("첫 렌더, 새로고침 시 유저 불러오기");
     fetchUser();
   }, []);
 
   if (loading)
     return (
-      <div class="loadingBox">
-        <div class="dim"></div>
-        <div class="circle"></div>
+      <div className="loadingBox">
+        <div className="dim"></div>
+        <div className="circle"></div>
       </div>
     );
-  if (error) return <div className="statusBar">Error!</div>;
+  // if (error) return <div className="statusBar">Error!</div>;
 
   return (
     <AppRouter

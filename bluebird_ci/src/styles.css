@@ -65,6 +65,10 @@ form {
   cursor: pointer;
 }
 
+.errMsg {
+  color: tomato;
+}
+
 .cancelBtn {
   cursor: pointer;
   background-color: tomato;

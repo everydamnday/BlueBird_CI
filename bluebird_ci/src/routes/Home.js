@@ -4,12 +4,12 @@ import NweetFactory from "../components/NweetFactory";
 import axios from "axios";
 
 const initialV = [
-  { id: 0, text: "ex 0", creatorId: 0, creator: "me" },
-  { id: 1, text: "ex 1", creatorId: 0, creator: "me" },
+  { id: 0, body: "ex 0", userId: 0, creator: "me" },
+  { id: 1, body: "ex 1", userId: 0, creator: "me" },
 ];
 
 const Home = ({ userObj }) => {
-  const [nweets, setNweets] = useState(initialV);
+  const [nweets, setNweets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -18,10 +18,10 @@ const Home = ({ userObj }) => {
     console.log("게시글갱신");
     try {
       setLoading(true);
-      const result = await axios.get(
-        "https://jsonplaceholder.typicode.com/posts"
-      );
-      setNweets(result.data);
+      const result = await axios.get("http://localhost:3005/post");
+      // const result = await axios.get("http://localhost:3005/board");
+      console.log("전체게시물", result.data.posts);
+      setNweets(result.data.posts);
     } catch (e) {
       setError(e);
     }
@@ -34,24 +34,30 @@ const Home = ({ userObj }) => {
 
   if (loading)
     return (
-      <div class="loadingBox">
-        <div class="dim"></div>
-        <div class="circle"></div>
+      <div className="loadingBox">
+        <div className="dim"></div>
+        <div className="circle"></div>
       </div>
     );
   if (error) return <div className="statusBar">Error!</div>;
 
   return (
     <div className="container">
-      <NweetFactory fetchData={fetchData} userObj={userObj} />
+      <NweetFactory
+        fetchData={fetchData}
+        userObj={userObj}
+        setNweets={setNweets}
+        nweets={nweets}
+      />
       <div style={{ marginTop: 30 }}>
         {!!nweets &&
           nweets.map((nweet) => (
             <Nweet
-              fetchData={fetchData}
-              key={nweet.id}
+              key={nweet._id}
               nweetObj={nweet}
-              isOwner={nweet.userId === userObj.id}
+              isOwner={nweet.userId === userObj._id}
+              setNweets={setNweets}
+              nweets={nweets}
             />
           ))}
       </div>
