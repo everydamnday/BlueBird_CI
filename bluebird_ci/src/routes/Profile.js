@@ -15,6 +15,7 @@ const Profile = ({ setUserObj, userObj }) => {
     //   const res = await axios(`/user/${userObj}/logout`);
     //   if(res.data) {
     setUserObj();
+    // 쿠키삭제
     //   }
     history.push("/");
     // } catch (e) {
