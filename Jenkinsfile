@@ -1,61 +1,9 @@
-podTemplate(label: 'docker-build', 
-  containers: [
-    containerTemplate(
-      name: 'git',
-      image: 'alpine/git',
-      command: 'cat',
-      ttyEnabled: true
-    ),
-    containerTemplate(
-      name: 'docker',
-      image: 'docker',
-      command: 'cat',
-      ttyEnabled: true
-    ),
-  ],
-  volumes: [ 
-    hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'), 
-  ]
-) {
-    node('docker-build') {
-        def dockerHubCred = your_dockerhub_cred
-        def appImage
-        
-        stage('Checkout'){
-            container('git'){
-                checkout scm
-            }
-        }
-        
-        stage('Build'){
-            container('docker'){
-                script {
-                    appImage = docker.build("SSUMINI/BlueBird_CI")
-                }
-            }
-        }
-        
-        stage('Test'){
-            container('docker'){
-                script {
-                    appImage.inside {
-                        sh 'npm install'
-                        sh 'npm test'
-                    }
-                }
-            }
-        }
+node {
+     stage('Clone repository') {
+         checkout scm #repository를 jenkins workspace로 clone
+     }
 
-        stage('Push'){
-            container('docker'){
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', dockerHubCred){
-                        appImage.push("${env.BUILD_NUMBER}")
-                        appImage.push("latest")
-                    }
-                }
-            }
-        }
-    }
-    
+     stage('Build image') {
+         app = docker.build("teichae/jenkins:$BUILD_NUMBER") #docker image build 및 이름을 teicahe/jenkins:빌드번호 설정
+     }
 }
