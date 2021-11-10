@@ -14,8 +14,7 @@ podTemplate(label: 'mypod', containers: [
                 sh 'hostname'
                 sh 'hostname -i'
                 sh 'docker ps'
-                sh 'docker build -t phcxio7949/project1:test'
-                sh 'docker push phcxio7949/project1:test'
+                
             }
         }
         
@@ -24,6 +23,8 @@ podTemplate(label: 'mypod', containers: [
                 sh 'whoami'
                 sh 'hostname -i'
                 sh 'git clone -b master https://github.com/lvthillo/hello-world-war.git'
+                sh 'docker build -t phcxio7949/project1:test'
+                sh 'docker push phcxio7949/project1:test'
             }
         }
 
