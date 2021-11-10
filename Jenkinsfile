@@ -1,9 +1,32 @@
-node {
-     stage('Clone repository') {
-         checkout scm 
-     }
-
-     stage('Build image') {
-         app = docker.build("teichae/jenkins:$BUILD_NUMBER") 
-     }
+pipeline {
+  environment {
+    registry = "phcxio7949/project"
+    registryCredential = 'your_dockerhub_cred'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+    
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
+      }
+    }
+  }
 }
