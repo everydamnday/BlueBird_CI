@@ -12,50 +12,56 @@ podTemplate(label: 'docker-build',
       command: 'cat',
       ttyEnabled: true
     ),
+  ],
+  volumes: [ 
+    hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'), 
   ]
-  
 ) {
     node('docker-build') {
+        
+        
         environment {
         registry = "phcxio7949/project"
         registryCredential = 'dockerhub'
         dockerImage = ''
-    }
+        }
         
         stage('Checkout'){
             container('git'){
-                checkout scm
+                 sh 'git clone -b dev_back https://github.com/SSUMINI/BlueBird_CI.git'
             }
         }
         
-        stage('Build'){
-            container('docker'){
-                script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                }
+         stage('build') {
+            
+            dir('BlueBird_CI') {
+                sh "ls -al"
+                sh "npm install"     
             }
+            
         }
         
-        stage('Test'){
-            container('docker'){
-                script {
-                    appImage.inside {
-                        sh 'npm install'
-                        sh 'npm test'
-                    }
+        stage('Image Build'){
+            dir('BlueBird_CI') {    
+                container('docker'){
+                
+                    sh "docker build -t phcxio7949/project:1.01 ."
+                    sh "docker images"
+                
                 }
-            }
+            }    
         }
+        
 
         stage('Push'){
             container('docker'){
-                script {
-                    docker.withRegistry( '', registryCredential ) {
-                    dockerImage.push()
-                    }
-                }
+                 withDockerRegistry([ credentialsId: registryCredential, url: "" ]) {
+                        sh "docker images"
+                        sh "docker push phcxio7949/project:1.01"
+                        sh "docker rmi phcxio7949/project:1.01"
             }
         }
     }
     
+}
 }
