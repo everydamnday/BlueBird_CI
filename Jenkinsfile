@@ -18,7 +18,7 @@ podTemplate(label: 'docker-build',
   ]
 ) {
     node('docker-build') {
-        def dockerHubCred = your_dockerhub_cred
+        def dockerHubCred = <dockerhub>
         def appImage
         
         stage('Checkout'){
@@ -30,7 +30,7 @@ podTemplate(label: 'docker-build',
         stage('Build'){
             container('docker'){
                 script {
-                    appImage = docker.build("phcxio7949/project")
+                    appImage = docker.build("<phcxio7949>/project")
                 }
             }
         }
