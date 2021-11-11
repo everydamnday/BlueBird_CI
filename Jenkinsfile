@@ -12,14 +12,15 @@ podTemplate(label: 'docker-build',
       command: 'cat',
       ttyEnabled: true
     ),
-  ],
-  volumes: [ 
-    hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'), 
   ]
+  
 ) {
     node('docker-build') {
-        def dockerHubCred = 'dockerhub'
-        def appImage
+        environment {
+        registry = "phcxio7949/project"
+        registryCredential = 'dockerhub'
+        dockerImage = ''
+    }
         
         stage('Checkout'){
             container('git'){
@@ -30,7 +31,7 @@ podTemplate(label: 'docker-build',
         stage('Build'){
             container('docker'){
                 script {
-                    appImage = docker.build("phcxio7949/project")
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
                 }
             }
         }
@@ -49,9 +50,8 @@ podTemplate(label: 'docker-build',
         stage('Push'){
             container('docker'){
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', dockerHubCred){
-                        appImage.push("${env.BUILD_NUMBER}")
-                        appImage.push("latest")
+                    docker.withRegistry( '', registryCredential ) {
+                    dockerImage.push()
                     }
                 }
             }
