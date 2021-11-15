@@ -1,8 +1,7 @@
 FROM node:16
 WORKDIR /app
 COPY package*.json ./
-RUN npm cache clean -f
-RUN npm install --global npm
+#RUN npm install --global npm
 COPY . .
 CMD [ "npm","run","start" ]
 EXPOSE 3005
