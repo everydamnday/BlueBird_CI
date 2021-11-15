@@ -15,7 +15,7 @@ COPY package*.json ./
 # RUN npm ci --only=production
 
 # 앱 소스 추가
-COPY . .
+COPY ./ .
 
 EXPOSE 3000
 CMD [ "node", "app.js" ]
