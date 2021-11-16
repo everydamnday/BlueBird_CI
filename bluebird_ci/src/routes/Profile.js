@@ -38,7 +38,7 @@ const Profile = ({ setUserObj, userObj }) => {
     if (userObj.username !== newDisplayname) {
       try {
         setLoading(true);
-        const res = await axios.post(`http://localhost:3005/user/update`, data);
+        const res = await axios.post(`/user/update`, data);
         console.log("받아온 유저", res.data.newUser);
         setUserObj(res.data.newUser);
       } catch (e) {

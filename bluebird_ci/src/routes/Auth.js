@@ -34,7 +34,7 @@ const Auth = ({ setUserObj }) => {
       console.log("회원가입");
       try {
         setLoading(true);
-        const res = await axios.post("http://localhost:3005/user/join", data); // 가입정보 서버송신 > db저장 > 유저객체 복원 > 프론트 수신(res)
+        const res = await axios.post("user/join", data); // 가입정보 서버송신 > db저장 > 유저객체 복원 > 프론트 수신(res)
         setUserObj(res.data); // 유저상태 업데이트
       } catch (err) {
         err.response && setError(err.response.data);
@@ -44,7 +44,7 @@ const Auth = ({ setUserObj }) => {
       console.log("로그인");
       try {
         setLoading(true);
-        const res = await axios.post("http://localhost:3005/user/login", data); // 로그인정보 서버송신 > db조회 > 유저객체 복원 > 프론트 수신(res)
+        const res = await axios.post("/user/login", data); // 로그인정보 서버송신 > db조회 > 유저객체 복원 > 프론트 수신(res)
         setCookie("myToken", res.data.token);
         setUserObj(res.data.user); // 유저상태 업데이트
       } catch (err) {
@@ -57,7 +57,7 @@ const Auth = ({ setUserObj }) => {
   const toggleAccount = () => setNewAccount((prev) => !prev);
 
   const SocialLogin = async (e) => {
-    const res = await axios.post("http://localhost:3005/auth/google/callback");
+    const res = await axios.post("/auth/google/callback");
     console.log(res.data);
   };
 

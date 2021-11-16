@@ -14,7 +14,7 @@ const NweetFactory = ({ userObj, fetchData, setNweets, nweets }) => {
     const data = { id: userObj._id, body: nweet };
     try {
       setLoading(true);
-      const result = await axios.post("http://localhost:3005/post/add", data);
+      const result = await axios.post("/post/add", data);
       console.log("받아온 새게시물", result.data.newPost);
       setNweets([result.data.newPost, ...nweets]);
     } catch (e) {

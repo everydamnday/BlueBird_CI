@@ -18,7 +18,7 @@ const Home = ({ userObj }) => {
     console.log("게시글갱신");
     try {
       setLoading(true);
-      const result = await axios.get("http://localhost:3005/post");
+      const result = await axios.get("/post");
       // const result = await axios.get("http://localhost:3005/board");
       console.log("전체게시물", result.data.posts);
       setNweets(result.data.posts);
