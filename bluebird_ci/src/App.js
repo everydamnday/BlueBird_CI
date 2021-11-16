@@ -17,7 +17,7 @@ function App() {
 
       const result = await axios({
         method: "get",
-        url: "http://localhost:3005/user",
+        url: "/user",
         headers: {
           "Content-Type": "application/json",
           Authorization: `${getCookie("myToken")}`,

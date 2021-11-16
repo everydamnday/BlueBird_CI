@@ -29,10 +29,7 @@ const Nweet = ({ nweetObj, isOwner, setNweets, nweets }) => {
     const data = { id: nweetObj._id, body: newNweet };
     try {
       setLoading(true);
-      const result = await axios.post(
-        `http://localhost:3005/post/update`,
-        data
-      );
+      const result = await axios.post(`/post/update`, data);
       console.log(result.data);
       const restNweets = nweets.filter((v) => v._id !== nweetObj._id);
       setNweets([result.data.updatedPost, ...restNweets]);
@@ -50,9 +47,7 @@ const Nweet = ({ nweetObj, isOwner, setNweets, nweets }) => {
     // 서버에 postID를 전달
     try {
       setLoading(true);
-      const result = await axios.delete(
-        `http://localhost:3005/post/${nweetObj._id}`
-      );
+      const result = await axios.delete(`/post/${nweetObj._id}`);
       if (result.data.message === "삭제완료") {
         setNweets(nweets.filter((v) => v._id !== nweetObj._id));
       }
