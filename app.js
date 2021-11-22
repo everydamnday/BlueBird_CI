@@ -15,6 +15,7 @@ passportConfig();
 connect(); //db 연결
 
 // app.set("view engine", "ejs");
+console.log("웹훅트리거테스트");
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
