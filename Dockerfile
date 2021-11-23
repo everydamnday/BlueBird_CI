@@ -1,7 +1,7 @@
 FROM node:16.13.0
 
 ENV PORT 3000
-ENV MONGO_URL mongodb://mongo:27017?mongos
+ENV MONGO_URL mongodb://mongo-0.mongo:27017?mongos
 
 WORKDIR /usr/src/app
 
