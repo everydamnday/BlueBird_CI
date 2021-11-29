@@ -10,7 +10,7 @@ import { Config } from "./config";
 // const { REACT_APP_API_SERVER_URL } = process.env;
 // console.log(REACT_APP_API_SERVER_URL);
 
-axios.defaults.baseURL = Config();
+// axios.defaults.baseURL = Config();
 // axios.defaults.baseURL = "http://localhost:3005";
 
 ReactDOM.render(
