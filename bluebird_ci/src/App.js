@@ -12,7 +12,7 @@ function App() {
 
   const fetchUser = async () => {
     console.log("유저토큰 재발급");
-    console.log("테스트5");
+    console.log("테스트6");
     try {
       setLoading(true);
 
