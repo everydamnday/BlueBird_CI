@@ -2,7 +2,7 @@ FROM node:16.13.0
 
 ENV PORT 3000
 # 로컬환경에서 연결 시
-ENV mongodb://localhost:27017/docker-node-mongo
+ENV MONGO_URL mongodb://localhost:27017/docker-node-mongo
 
 # 샤딩적용시
 # ENV MONGO_URL mongodb://mongo-0.mongo:27017
